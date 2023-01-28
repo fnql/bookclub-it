@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pomodoro/screens/home_screen.dart';
 
 void main() {
   runApp(const App());
@@ -25,36 +26,15 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        backgroundColor: const Color(0xffe7626c),
         textTheme: const TextTheme(
-          titleLarge: TextStyle(color: Colors.red),
-        ),
-      ),
-      home: Scaffold(
-        backgroundColor: const Color(0xfff4eddb),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              MyLargeTitle(),
-            ],
+          headline1: TextStyle(
+            color: Color(0xff232b55),
           ),
         ),
+        cardColor: const Color(0xfff4eddb),
       ),
-    );
-  }
-}
-
-class MyLargeTitle extends StatelessWidget {
-  const MyLargeTitle({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      'My Large Title',
-      style: TextStyle(
-          fontSize: 30, color: Theme.of(context).textTheme.titleLarge!.color),
+      home: const HomeScreen(),
     );
   }
 }
