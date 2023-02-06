@@ -45,44 +45,42 @@ class _DetailScreenState extends State<DetailScreen> {
           textAlign: TextAlign.center,
         ),
       ),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 50,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(50),
+          child: Column(
             children: [
-              Hero(
-                tag: widget.id,
-                child: Container(
-                  width: 250,
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 7,
-                        offset: const Offset(10, 10),
-                        color: Colors.black.withOpacity(0.5),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Hero(
+                    tag: widget.id,
+                    child: Container(
+                      width: 250,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 7,
+                            offset: const Offset(10, 10),
+                            color: Colors.black.withOpacity(0.5),
+                          ),
+                        ],
                       ),
-                    ],
+                      child: Image.network(widget.thumb),
+                    ),
                   ),
-                  child: Image.network(widget.thumb),
-                ),
+                ],
               ),
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          FutureBuilder(
-              future: webtoon,
-              builder: ((context, snapshot) {
-                if (snapshot.hasData) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 50),
-                    child: Column(
+              const SizedBox(
+                height: 20,
+              ),
+              FutureBuilder(
+                future: webtoon,
+                builder: ((context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
@@ -97,12 +95,59 @@ class _DetailScreenState extends State<DetailScreen> {
                           style: const TextStyle(fontSize: 16),
                         ),
                       ],
-                    ),
-                  );
-                }
-                return const Text("...");
-              }))
-        ],
+                    );
+                  }
+                  return const Text("...");
+                }),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              FutureBuilder(
+                  future: episodes,
+                  builder: ((context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Column(
+                        children: [
+                          for (var episode in snapshot.data!)
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 10),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.green.shade300),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 10,
+                                  horizontal: 20,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    //TODO:: 초록 테두리에 초록 글자로 변경
+                                    Text(
+                                      episode.title,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    const Icon(
+                                      Icons.chevron_right_rounded,
+                                      color: Colors.white,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )
+                        ],
+                      );
+                    }
+                    return Container();
+                  }))
+            ],
+          ),
+        ),
       ),
     );
   }
