@@ -17,6 +17,15 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         foregroundColor: Colors.green,
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: myWebToons,
+            icon: const Icon(
+              Icons.catching_pokemon_sharp,
+              size: 30,
+            ),
+          )
+        ],
         title: const Text(
           "오늘의 웹툰",
           style: TextStyle(
@@ -64,4 +73,6 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
+  void myWebToons() {}
 }
