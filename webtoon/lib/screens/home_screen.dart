@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:webtoon/models/webtoon_model.dart';
+import 'package:webtoon/screens/my_toons.dart';
 import 'package:webtoon/services/api_service.dart';
 import 'package:webtoon/widgets/webtoon_widget.dart';
 
@@ -19,7 +20,14 @@ class HomeScreen extends StatelessWidget {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: myWebToons,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: ((context) => const MyToons()),
+                ),
+              );
+            },
             icon: const Icon(
               Icons.catching_pokemon_sharp,
               size: 30,

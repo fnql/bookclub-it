@@ -58,7 +58,7 @@ class _DetailScreenState extends State<DetailScreen> {
       setState(() {
         isLiked = !isLiked;
       });
-      print(likedToons);
+
       await prefs.setStringList('likedToons', likedToons);
     }
   }
