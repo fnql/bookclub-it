@@ -40,7 +40,30 @@ class _MyToonsState extends State<MyToons> {
       ),
       body: Column(
         children: [
-          Container(),
+          FutureBuilder(
+            future: likedToons,
+            builder: ((context, snapshot) {
+              if (snapshot.hasData) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      snapshot.data!.first,
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      snapshot.data!.first,
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  ],
+                );
+              }
+              return const Text("...");
+            }),
+          ),
         ],
       ),
     );
