@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:webtoon/models/webtoon_model.dart';
+
+import '../models/webtoon_detail_model.dart';
+import '../services/api_service.dart';
 
 class MyToons extends StatefulWidget {
   const MyToons({super.key});
@@ -10,25 +12,27 @@ class MyToons extends StatefulWidget {
 }
 
 class _MyToonsState extends State<MyToons> {
-  late Future<List<WebtoonModel>> webtoons;
+  late List<Future<WebtoonDetailModel>> webtoons = [];
   late SharedPreferences prefs;
   late Future<List<String>?> likedToons;
 
   @override
   void initState() {
     super.initState();
-    likedToons = initPrefs();
-    // webtoons = ApiService.getToonById(widget.id) as Future<List<WebtoonModel>>;
+    // likedToons = initPrefs();
+    initPrefs();
   }
 
-  Future<List<String>?> initPrefs() async {
+  Future initPrefs() async {
     prefs = await SharedPreferences.getInstance();
     final likedToons = prefs.getStringList('likedToons');
     if (likedToons != null) {
+      for (int k = 1; k < likedToons.length; k++) {
+        webtoons.add(ApiService.getToonById(likedToons[k]));
+      }
     } else {
       await prefs.setStringList('likedToons', []);
     }
-    return likedToons;
   }
 
   @override
@@ -40,30 +44,27 @@ class _MyToonsState extends State<MyToons> {
       ),
       body: Column(
         children: [
-          FutureBuilder(
-            future: likedToons,
-            builder: ((context, snapshot) {
-              if (snapshot.hasData) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      snapshot.data!.first,
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Text(
-                      snapshot.data!.first,
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  ],
-                );
-              }
-              return const Text("...");
-            }),
-          ),
+          for (int i = 0; i < webtoons.length; i++)
+            FutureBuilder(
+              future: webtoons[i],
+              builder: ((context, snapshot) {
+                if (snapshot.hasData) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        snapshot.data!.title,
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                    ],
+                  );
+                }
+                return const Text("...");
+              }),
+            ),
         ],
       ),
     );
