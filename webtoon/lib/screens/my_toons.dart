@@ -27,13 +27,16 @@ class _MyToonsState extends State<MyToons> {
     prefs = await SharedPreferences.getInstance();
     final likedToons = prefs.getStringList('likedToons');
     if (likedToons != null) {
+      print(likedToons[0]);
       for (int k = 1; k < likedToons.length; k++) {
         webtoons.add(ApiService.getToonById(likedToons[k]));
       }
     } else {
       await prefs.setStringList('likedToons', []);
     }
+    setState(() {});
   }
+  // 776255
 
   @override
   Widget build(BuildContext context) {
@@ -42,30 +45,51 @@ class _MyToonsState extends State<MyToons> {
       appBar: AppBar(
         title: const Text('좋아하는 웹툰'),
       ),
-      body: Column(
-        children: [
-          for (int i = 0; i < webtoons.length; i++)
-            FutureBuilder(
-              future: webtoons[i],
-              builder: ((context, snapshot) {
-                if (snapshot.hasData) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        snapshot.data!.title,
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                    ],
-                  );
-                }
-                return const Text("...");
-              }),
-            ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            for (int i = 0; i < webtoons.length; i++)
+              FutureBuilder(
+                future: webtoons[i],
+                builder: ((context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Column(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 100,
+                              clipBehavior: Clip.hardEdge,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 7,
+                                    offset: const Offset(10, 10),
+                                    color: Colors.black.withOpacity(0.5),
+                                  ),
+                                ],
+                              ),
+                              child: Image.network(snapshot.data!.thumb),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          snapshot.data!.title,
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                      ],
+                    );
+                  }
+                  return const CircularProgressIndicator();
+                }),
+              ),
+          ],
+        ),
       ),
     );
   }
