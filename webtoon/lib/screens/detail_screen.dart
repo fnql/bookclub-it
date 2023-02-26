@@ -111,7 +111,10 @@ class _DetailScreenState extends State<DetailScreen> {
                           ),
                         ],
                       ),
-                      child: Image.network(widget.thumb),
+                      child: Image.network(
+                        widget.thumb,
+                        fit: BoxFit.fill,
+                      ),
                     ),
                   ),
                 ],

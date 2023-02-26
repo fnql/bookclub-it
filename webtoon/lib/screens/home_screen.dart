@@ -81,6 +81,4 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-
-  void myWebToons() {}
 }
