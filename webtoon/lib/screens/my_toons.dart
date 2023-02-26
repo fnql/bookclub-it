@@ -55,29 +55,53 @@ class _MyToonsState extends State<MyToons> {
                   if (snapshot.hasData) {
                     return Column(
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 100,
-                              clipBehavior: Clip.hardEdge,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                boxShadow: [
-                                  BoxShadow(
-                                    blurRadius: 7,
-                                    offset: const Offset(10, 10),
-                                    color: Colors.black.withOpacity(0.5),
-                                  ),
-                                ],
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 100,
+                                clipBehavior: Clip.hardEdge,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 7,
+                                      offset: const Offset(5, 5),
+                                      color: Colors.black.withOpacity(0.5),
+                                    ),
+                                  ],
+                                ),
+                                child: Image.network(snapshot.data!.thumb),
                               ),
-                              child: Image.network(snapshot.data!.thumb),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          snapshot.data!.title,
-                          style: const TextStyle(fontSize: 16),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 15,
+                                  vertical: 8,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      snapshot.data!.title,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      '${snapshot.data!.genre} / ${snapshot.data!.age}',
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         const SizedBox(
                           height: 15,
